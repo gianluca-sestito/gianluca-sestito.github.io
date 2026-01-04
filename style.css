@@ -224,18 +224,24 @@ a {
     color: var(--text-secondary);
 }
 
-.hero-contact span {
+.hero-contact span,
+.hero-contact-link {
     padding: 10px 20px;
     background: var(--card-bg);
     border-radius: 30px;
     border: 1px solid rgba(0, 212, 255, 0.2);
     transition: all 0.3s ease;
+    text-decoration: none;
+    color: var(--text-secondary);
+    display: inline-block;
 }
 
-.hero-contact span:hover {
+.hero-contact span:hover,
+.hero-contact-link:hover {
     border-color: var(--electric-blue);
     box-shadow: var(--glow-blue);
     transform: translateY(-2px);
+    color: var(--text-primary);
 }
 
 .hero-cta {

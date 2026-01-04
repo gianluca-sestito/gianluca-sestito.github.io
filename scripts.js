@@ -101,33 +101,13 @@
     // ============================================
     // ENHANCED HOVER EFFECTS FOR PROJECT CARDS
     // ============================================
-    document.addEventListener('DOMContentLoaded', function() {
-        const projectCards = document.querySelectorAll('.project-card:not(.featured)');
-
-        projectCards.forEach(card => {
-            card.addEventListener('mouseenter', function() {
-                this.style.transition = 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)';
-            });
-
-            card.addEventListener('mousemove', function(e) {
-                const rect = this.getBoundingClientRect();
-                const x = e.clientX - rect.left;
-                const y = e.clientY - rect.top;
-
-                const centerX = rect.width / 2;
-                const centerY = rect.height / 2;
-
-                const rotateX = (y - centerY) / 20;
-                const rotateY = (centerX - x) / 20;
-
-                this.style.transform = `translateY(-10px) perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
-            });
-
-            card.addEventListener('mouseleave', function() {
-                this.style.transform = 'translateY(0) perspective(1000px) rotateX(0) rotateY(0)';
-            });
-        });
-    });
+    // DISABLED: 3D transform effects removed - cards stay still on hover
+    // document.addEventListener('DOMContentLoaded', function() {
+    //     const projectCards = document.querySelectorAll('.project-card:not(.featured)');
+    //     projectCards.forEach(card => {
+    //         // Hover effects disabled - cards remain static
+    //     });
+    // });
 
     // ============================================
     // DYNAMIC GLOW EFFECT ON SCROLL
@@ -185,27 +165,6 @@
             }, 100);
         });
     }
-
-    // ============================================
-    // PERFORMANCE OPTIMIZATION
-    // ============================================
-    // Throttle scroll events for better performance
-    function throttle(func, wait) {
-        let timeout;
-        return function executedFunction(...args) {
-            const later = () => {
-                clearTimeout(timeout);
-                func(...args);
-            };
-            clearTimeout(timeout);
-            timeout = setTimeout(later, wait);
-        };
-    }
-
-    // Apply throttling to scroll-heavy functions if needed
-    // window.addEventListener('scroll', throttle(function() {
-    //     // Heavy scroll operations here
-    // }, 16)); // ~60fps
 
     // ============================================
     // CONSOLE MESSAGE (FOR FUN)

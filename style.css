@@ -291,30 +291,15 @@ section {
     height: 100%;
 }
 
-.project-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(0, 212, 255, 0.1), transparent);
-    transition: left 0.5s ease;
-}
-
-.project-card:hover::before {
-    left: 100%;
-}
-
 .project-card.featured::before {
     display: none;
 }
 
 .project-card:hover {
-    transform: translateY(-10px);
     border-color: var(--electric-blue);
     box-shadow: var(--glow-combined);
 }
+
 
 .project-card.featured {
     border-width: 3px;
@@ -322,6 +307,9 @@ section {
     background: linear-gradient(135deg, rgba(0, 212, 255, 0.1), rgba(255, 0, 110, 0.1));
     box-shadow: var(--glow-combined);
     transform: none;
+    padding: 25px 30px;
+    max-width: 900px;
+    margin: 0 auto;
 }
 
 .project-card.featured:hover {
@@ -339,6 +327,11 @@ section {
     gap: 15px;
     min-height: 90px;
     height: auto;
+}
+
+.project-card.featured .project-header {
+    margin-bottom: 15px;
+    min-height: auto;
 }
 
 .project-title {
@@ -397,11 +390,21 @@ section {
     margin-bottom: 25px;
 }
 
+.project-card.featured .project-description {
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: 15px;
+}
+
 .project-tech {
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
     margin-bottom: 25px;
+}
+
+.project-card.featured .project-tech {
+    margin-bottom: 15px;
 }
 
 .tech-tag {
@@ -468,6 +471,149 @@ section {
     margin-top: 30px;
 }
 
+.project-card.featured .project-links {
+    margin-top: 15px;
+}
+
+.project-metrics-compact {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+}
+
+.metric-compact {
+    padding: 8px 16px;
+    background: rgba(255, 0, 110, 0.15);
+    border: 1px solid rgba(255, 0, 110, 0.3);
+    border-radius: 20px;
+    color: var(--electric-pink);
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.project-item {
+    margin-bottom: 30px;
+    padding-bottom: 30px;
+    border-bottom: 1px solid rgba(0, 212, 255, 0.1);
+}
+
+.project-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.project-item-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--electric-blue);
+    margin-bottom: 15px;
+    text-shadow: var(--glow-blue);
+}
+
+.project-item-description {
+    color: var(--text-secondary);
+    line-height: 1.8;
+    font-size: 1rem;
+}
+
+.project-metrics {
+    display: flex;
+    gap: 20px;
+    margin: 25px 0;
+    flex-wrap: wrap;
+}
+
+.project-metric-item {
+    display: flex;
+    flex-direction: column;
+    padding: 15px 20px;
+    background: rgba(0, 212, 255, 0.1);
+    border: 1px solid rgba(0, 212, 255, 0.3);
+    border-radius: 15px;
+    flex: 1;
+    min-width: 200px;
+}
+
+.metric-value {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 2rem;
+    font-weight: 900;
+    color: var(--electric-pink);
+    text-shadow: var(--glow-pink);
+    margin-bottom: 5px;
+}
+
+.metric-text {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    line-height: 1.4;
+}
+
+/* ============================================
+   METRICS SECTION
+   ============================================ */
+.metrics {
+    background: linear-gradient(180deg, var(--dark-bg) 0%, rgba(255, 0, 110, 0.05) 100%);
+}
+
+.metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.metric-card {
+    background: var(--card-bg);
+    border: 2px solid rgba(0, 212, 255, 0.2);
+    border-radius: 20px;
+    padding: 30px;
+    text-align: center;
+    transition: all 0.4s ease;
+    backdrop-filter: blur(10px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.metric-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--electric-blue);
+    box-shadow: var(--glow-combined);
+}
+
+.metric-number {
+    font-family: 'Orbitron', sans-serif;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 900;
+    background: linear-gradient(135deg, var(--electric-blue), var(--electric-pink));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 10px;
+    text-shadow: var(--glow-combined);
+    line-height: 1.2;
+}
+
+.metric-label {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 8px;
+    line-height: 1.3;
+}
+
+.metric-detail {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    font-style: italic;
+}
+
 /* ============================================
    PROJECTS GRID
    ============================================ */
@@ -495,8 +641,10 @@ section {
 
 .skills-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 30px;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
 .skill-category {
@@ -600,48 +748,72 @@ section {
     background: linear-gradient(180deg, var(--dark-bg) 0%, rgba(0, 212, 255, 0.05) 100%);
 }
 
-.languages-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 30px;
+.languages-list {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    flex-wrap: wrap;
     max-width: 600px;
     margin: 0 auto;
 }
 
 .language-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 15px 25px;
     background: var(--card-bg);
     border: 2px solid rgba(255, 0, 110, 0.2);
-    border-radius: 20px;
-    padding: 30px;
-    text-align: center;
-    transition: all 0.4s ease;
+    border-radius: 50px;
     backdrop-filter: blur(10px);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    transition: all 0.3s ease;
 }
 
 .language-item:hover {
-    transform: translateY(-5px);
     border-color: var(--electric-pink);
     box-shadow: var(--glow-pink);
 }
 
 .language-name {
     font-family: 'Orbitron', sans-serif;
-    font-size: 1.5rem;
+    font-size: 1.2rem;
     font-weight: 700;
     color: var(--electric-pink);
     text-shadow: var(--glow-pink);
 }
 
-.language-level {
-    font-size: 1.1rem;
-    color: var(--text-secondary);
-    padding: 5px 15px;
-    background: rgba(255, 0, 110, 0.1);
+.language-badge {
+    font-size: 0.85rem;
+    font-weight: 600;
+    padding: 6px 14px;
     border-radius: 20px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.language-badge.native {
+    background: rgba(255, 0, 110, 0.2);
+    border: 1px solid rgba(255, 0, 110, 0.4);
+    color: var(--electric-pink);
+}
+
+.language-badge.professional {
+    background: rgba(0, 212, 255, 0.2);
+    border: 1px solid rgba(0, 212, 255, 0.4);
+    color: var(--electric-blue);
+}
+
+.language-badge.proficient {
+    background: rgba(0, 212, 255, 0.15);
+    border: 1px solid rgba(0, 212, 255, 0.3);
+    color: var(--electric-blue);
+}
+
+.language-badge.learning {
+    background: rgba(255, 0, 110, 0.15);
     border: 1px solid rgba(255, 0, 110, 0.3);
+    color: var(--electric-pink);
+    opacity: 0.8;
 }
 
 /* ============================================
@@ -746,17 +918,57 @@ section {
         grid-template-columns: 1fr;
     }
 
+    .metrics-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .metrics-grid .metric-card:nth-child(4),
+    .metrics-grid .metric-card:nth-child(5) {
+        grid-column: span 1;
+    }
+
+    @media (max-width: 600px) {
+        .metrics-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    .metric-card {
+        padding: 25px;
+    }
+
+    .project-metrics {
+        flex-direction: column;
+    }
+
+    .project-metric-item {
+        min-width: 100%;
+    }
+
     .skills-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    @media (max-width: 600px) {
+        .skills-grid {
+            grid-template-columns: 1fr;
+        }
     }
 
     .languages-grid {
         grid-template-columns: 1fr;
     }
 
-    .language-item {
+    .languages-list {
         flex-direction: column;
-        gap: 15px;
+        align-items: center;
+        gap: 20px;
+    }
+    
+    .language-item {
+        width: 100%;
+        max-width: 300px;
+        justify-content: space-between;
     }
 
     .contact-link {

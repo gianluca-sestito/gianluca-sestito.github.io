@@ -7,13 +7,14 @@
     'use strict';
 
     // ============================================
-    // SMOOTH SCROLL BEHAVIOR
+    // SMOOTH SCROLL BEHAVIOR WITH FOCUS MANAGEMENT
     // ============================================
     document.addEventListener('DOMContentLoaded', function() {
         // Smooth scroll for anchor links
         const anchorLinks = document.querySelectorAll('a[href^="#"]');
         
         anchorLinks.forEach(link => {
+            // Handle click events
             link.addEventListener('click', function(e) {
                 const href = this.getAttribute('href');
                 
@@ -24,18 +25,60 @@
                 
                 if (target) {
                     e.preventDefault();
+                    scrollToTarget(target, link);
+                }
+            });
+            
+            // Handle keyboard events (Enter key)
+            link.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter' || e.keyCode === 13) {
+                    const href = this.getAttribute('href');
                     
-                    const headerOffset = 80;
-                    const elementPosition = target.getBoundingClientRect().top;
-                    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+                    // Skip if it's just "#"
+                    if (href === '#') return;
                     
-                    window.scrollTo({
-                        top: offsetPosition,
-                        behavior: 'smooth'
-                    });
+                    const target = document.querySelector(href);
+                    
+                    if (target) {
+                        e.preventDefault();
+                        scrollToTarget(target, link);
+                    }
                 }
             });
         });
+        
+        // Function to handle smooth scrolling with focus management
+        function scrollToTarget(target, sourceLink) {
+            const headerOffset = 80;
+            const elementPosition = target.getBoundingClientRect().top;
+            const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+            
+            window.scrollTo({
+                top: offsetPosition,
+                behavior: 'smooth'
+            });
+            
+            // After scrolling, move focus to the target section for screen readers
+            // Use setTimeout to wait for scroll animation to complete
+            setTimeout(function() {
+                // Find the first focusable element in the target section, or focus the section itself
+                const focusableElements = target.querySelectorAll(
+                    'a, button, input, textarea, select, [tabindex]:not([tabindex="-1"])'
+                );
+                
+                if (focusableElements.length > 0) {
+                    focusableElements[0].focus();
+                } else {
+                    // If no focusable element, make the section focusable temporarily
+                    if (!target.hasAttribute('tabindex')) {
+                        target.setAttribute('tabindex', '-1');
+                        target.focus();
+                    } else {
+                        target.focus();
+                    }
+                }
+            }, 800); // Wait for smooth scroll to complete
+        }
     });
 
     // ============================================
@@ -165,6 +208,39 @@
             }, 100);
         });
     }
+
+    // ============================================
+    // KEYBOARD NAVIGATION ENHANCEMENTS
+    // ============================================
+    document.addEventListener('DOMContentLoaded', function() {
+        // Ensure all interactive elements are keyboard accessible
+        const interactiveElements = document.querySelectorAll(
+            'a, button, input, textarea, select, [role="button"], [role="link"]'
+        );
+        
+        interactiveElements.forEach(element => {
+            // Ensure elements are focusable if they're not already
+            if (!element.hasAttribute('tabindex') && 
+                element.getAttribute('tabindex') !== '0' && 
+                element.getAttribute('tabindex') !== '-1') {
+                // Links and buttons are naturally focusable, but check if disabled
+                if (element.hasAttribute('disabled') || element.getAttribute('aria-disabled') === 'true') {
+                    element.setAttribute('tabindex', '-1');
+                }
+            }
+            
+            // Add Enter key support for elements that act like buttons
+            if (element.getAttribute('role') === 'button' || 
+                (element.tagName === 'A' && element.getAttribute('href') === '#')) {
+                element.addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter' || e.keyCode === 13) {
+                        e.preventDefault();
+                        element.click();
+                    }
+                });
+            }
+        });
+    });
 
     // ============================================
     // CONSOLE MESSAGE (FOR FUN)

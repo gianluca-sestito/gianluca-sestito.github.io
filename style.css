@@ -739,6 +739,7 @@ section {
     opacity: 0.85;
     transition: opacity 0.3s ease;
     will-change: opacity;
+    padding: 40px;
 }
 
 .projects-grid-secondary .project-card-secondary:hover {
@@ -1137,6 +1138,18 @@ section {
 
     .project-card {
         padding: 25px;
+    }
+
+    .project-card-featured-experience {
+        padding: 25px;
+    }
+
+    .projects-grid-secondary .project-card-secondary {
+        padding: 25px;
+    }
+
+    .projects-grid-secondary {
+        grid-template-columns: 1fr;
     }
 
     .projects-grid {

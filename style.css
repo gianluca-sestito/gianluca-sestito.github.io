@@ -148,6 +148,10 @@ body:hover .cursor-glow {
     align-items: center;
 }
 
+.nav-spacer {
+    width: 3rem;
+}
+
 .nav-logo {
     font-family: var(--font-body);
     font-size: 1.25rem;
@@ -241,11 +245,11 @@ body:hover .cursor-glow {
 }
 
 .nav-toggle[aria-expanded="true"] .nav-toggle-line:first-child {
-    transform: translateY(8px) rotate(45deg);
+    transform: translateY(4px) rotate(45deg);
 }
 
 .nav-toggle[aria-expanded="true"] .nav-toggle-line:last-child {
-    transform: translateY(-8px) rotate(-45deg);
+    transform: translateY(-4px) rotate(-45deg);
 }
 
 /* ============================================
@@ -1655,7 +1659,30 @@ section.section-active {
 
     .skills-grid {
         grid-template-columns: 1fr;
-        gap: var(--space-md);
+        gap: var(--space-sm);
+    }
+
+    .skill-block {
+        padding: var(--space-xs);
+    }
+
+    .skill-description {
+        display: none;
+    }
+
+    .skill-icon {
+        width: 28px;
+        height: 28px;
+        margin-bottom: var(--space-xs);
+    }
+
+    .skill-block h3 {
+        font-size: 0.85rem;
+        margin-bottom: 2px;
+    }
+
+    .skill-block p {
+        font-size: 0.65rem;
     }
 
     .hero-metrics {

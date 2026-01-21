@@ -117,57 +117,63 @@
     // ============================================
     document.addEventListener('DOMContentLoaded', () => {
         const sections = Array.from(document.querySelectorAll('section[id]'));
-        const navButtons = document.querySelectorAll('.section-nav');
+        let currentSectionIndex = 0;
 
-        // Create navigation arrows dynamically based on position
-        function updateNavigationArrows() {
-            // Remove all existing nav buttons
-            document.querySelectorAll('.section-nav').forEach(btn => btn.remove());
+        // Create single up and down arrows (fixed position)
+        const upArrow = document.createElement('button');
+        upArrow.className = 'section-nav section-nav-up';
+        upArrow.setAttribute('aria-label', 'Scroll to previous section');
+        upArrow.innerHTML = `
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 19V5M5 12l7-7 7 7"/>
+            </svg>
+        `;
+        upArrow.style.display = 'none';
+        document.body.appendChild(upArrow);
 
-            sections.forEach((section, index) => {
-                const isFirst = index === 0;
-                const isLast = index === sections.length - 1;
+        const downArrow = document.createElement('button');
+        downArrow.className = 'section-nav section-nav-down';
+        downArrow.setAttribute('aria-label', 'Scroll to next section');
+        downArrow.innerHTML = `
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 5v14M19 12l-7 7-7-7"/>
+            </svg>
+        `;
+        document.body.appendChild(downArrow);
 
-                // Add UP arrow (all sections except first)
-                if (!isFirst) {
-                    const upArrow = document.createElement('button');
-                    upArrow.className = 'section-nav section-nav-up';
-                    upArrow.setAttribute('aria-label', 'Scroll to previous section');
-                    upArrow.innerHTML = `
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M12 19V5M5 12l7-7 7 7"/>
-                        </svg>
-                    `;
-                    upArrow.addEventListener('click', () => {
-                        if (index > 0) {
-                            sections[index - 1].scrollIntoView({ behavior: 'smooth', block: 'start' });
-                        }
-                    });
-                    section.appendChild(upArrow);
-                }
-
-                // Add DOWN arrow (all sections except last)
-                if (!isLast) {
-                    const downArrow = document.createElement('button');
-                    downArrow.className = 'section-nav section-nav-down';
-                    downArrow.setAttribute('aria-label', 'Scroll to next section');
-                    downArrow.innerHTML = `
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M12 5v14M19 12l-7 7-7-7"/>
-                        </svg>
-                    `;
-                    downArrow.addEventListener('click', () => {
-                        if (index < sections.length - 1) {
-                            sections[index + 1].scrollIntoView({ behavior: 'smooth', block: 'start' });
-                        }
-                    });
-                    section.appendChild(downArrow);
-                }
-            });
+        // Update arrow visibility based on current section
+        function updateArrowVisibility() {
+            upArrow.style.display = currentSectionIndex > 0 ? 'flex' : 'none';
+            downArrow.style.display = currentSectionIndex < sections.length - 1 ? 'flex' : 'none';
         }
 
-        // Initialize arrows
-        updateNavigationArrows();
+        // Click handlers
+        upArrow.addEventListener('click', () => {
+            if (currentSectionIndex > 0) {
+                sections[currentSectionIndex - 1].scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        });
+
+        downArrow.addEventListener('click', () => {
+            if (currentSectionIndex < sections.length - 1) {
+                sections[currentSectionIndex + 1].scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        });
+
+        // Track current section on scroll
+        const navObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    currentSectionIndex = sections.indexOf(entry.target);
+                    updateArrowVisibility();
+                }
+            });
+        }, { threshold: 0.5 });
+
+        sections.forEach(section => navObserver.observe(section));
+
+        // Initialize
+        updateArrowVisibility();
 
         // Track active section and trigger reveals
         const observerOptions = {
@@ -178,10 +184,10 @@
         const sectionObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    // Remove active from all sections
-                    sections.forEach(s => s.classList.remove('section-active'));
-                    // Add active to current section
+                    // Add active to current section (never remove - animations only play once)
                     entry.target.classList.add('section-active');
+                    // Stop observing this section
+                    sectionObserver.unobserve(entry.target);
                 }
             });
         }, observerOptions);
